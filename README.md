@@ -7,6 +7,8 @@ A simple example of FastAPI framework usage.
 
 Let's imagine that somebody asked us to make a webservice for a vet clinic. The statement of work with all the functionality we need to provide is inside the [clinic.yaml](clinic.yaml) file. You can check it with [swagger editor](https://editor-next.swagger.io/) for more details. I'm not using any database, the "database" is imitated by dict and list inside the code.
 
+This service is hosted on the render public cloud: https://super-cool-vet-clinic.onrender.com
+
 **What can it do?**
 
 - @POST on '/post': post current timestamp and assign primary key to it;
