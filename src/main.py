@@ -57,7 +57,7 @@ async def post_timestamp() -> Dict[int, int]:
 
 
 @app.get('/dog', response_model=List[Dog], summary='Get Dogs')
-async def get_dog_by_kind(kind: str | None = None) -> List[Dog]:
+async def get_dog_by_kind(kind: Union[str, None] = None) -> List[Dog]:
     """Get the dogs by their kind or get all the dogs from the database"""
     if kind:
         query_result = [doggy for doggy in dogs_db.values() if doggy.kind.value == kind.lower()]
@@ -81,7 +81,7 @@ async def create_new_dog(name: str, pk: int, kind: str) -> Dog:
 
 
 @app.get('/dog/{pk}', response_model=Dog, summary='Get Dog By Primary Key')
-async def get_dog_by_pk(pk: int) -> Dog:
+def get_dog_by_pk(pk: int) -> Dog:
     """Get dog by its primary key"""
     query_dog = dogs_db.get(pk, [])
 
@@ -89,7 +89,7 @@ async def get_dog_by_pk(pk: int) -> Dog:
 
 
 @app.patch('/dog/{pk}', response_model=Dog, summary='Edit Existent Dog')
-async def patch_dog_by_pk(pk: int, name: str, kind: str) -> Dog:
+def patch_dog_by_pk(pk: int, name: str, kind: str) -> Dog:
     """Edit dog entry by primary key"""
     if not dogs_db.get(pk, False):
         raise HTTPException(status_code=409, detail="Dog with such primary key doesn't exist.")
