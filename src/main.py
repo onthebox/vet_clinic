@@ -1,6 +1,6 @@
 import time
 from enum import Enum
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -80,8 +80,8 @@ async def create_new_dog(name: str, pk: int, kind: str) -> Dog:
     return dogs_db[pk]
 
 
-@app.get('/dog/{pk}', response_model=Dog, summary='Get Dog By Primary Key')
-def get_dog_by_pk(pk: int) -> Dog:
+@app.get('/dog/{pk}', response_model=Union[Dog, List], summary='Get Dog By Primary Key')
+def get_dog_by_pk(pk: int) -> Union[Dog, List]:
     """Get dog by its primary key"""
     query_dog = dogs_db.get(pk, [])
 
