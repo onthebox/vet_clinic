@@ -41,13 +41,13 @@ post_db = [
 ]
 
 
-@app.get('/')
+@app.get('/', response_model=Dict[str, str], summary='Display Welcoming Text')
 async def root() -> Dict[str, str]:
-    """Get root path with greetings message"""
+    """Display welcoming text"""
     return {"mesage": "Welcome to extremely cool vet clinic B-)"}
 
 
-@app.post('/post')
+@app.post('/post', response_model=Dict[str, int], summary='Post Timestamp')
 async def post_timestamp() -> Dict[int, int]:
     """Post current timestamp"""
     ts = int(time.time())
@@ -56,17 +56,17 @@ async def post_timestamp() -> Dict[int, int]:
     return {"id": idx, "timestamp": ts}
 
 
-@app.get('/dog')
+@app.get('/dog', response_model=List[Dog], summary='Get Dogs')
 async def get_dog_by_kind(kind: str | None = None) -> List[Dict[str, Union[str, int, DogType]]]:
-    """Get new dog by its kind or get all dogs from the database"""
+    """Get the dogs by their kind or get all the dogs from the database"""
     if kind:
-        query_result = [dict(doggy) for doggy in dogs_db.values() if doggy.kind.value == kind.lower()]
+        query_result = [doggy for doggy in dogs_db.values() if doggy.kind.value == kind.lower()]
     else:
-        query_result = [dict(doggy) for doggy in dogs_db.values()]
+        query_result = [doggy for doggy in dogs_db.values()]
     return query_result
 
 
-@app.post('/dog')
+@app.post('/dog', response_model=Dog, summary='Post New Dog')
 async def create_new_dog(name: str, pk: int, kind: str) -> Dict[str, Union[str, int, DogType]]:
     """Post new dog entry to the database"""
     if dogs_db.get(pk, False):
@@ -80,7 +80,7 @@ async def create_new_dog(name: str, pk: int, kind: str) -> Dict[str, Union[str, 
     return dogs_db[pk]
 
 
-@app.get('/dog/{pk}')
+@app.get('/dog/{pk}', response_model=Dog, summary='Edit Existent Dog')
 async def get_dog_by_pk(pk: int) -> Dict[str, Union[str, int, DogType]]:
     """Get dog by its primary key"""
     query_dog = dogs_db.get(pk, [])

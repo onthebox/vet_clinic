@@ -10,7 +10,7 @@ Let's imagine that somebody asked us to make a webservice for a vet clinic. The 
 **What can it do?**
 
 - @POST on '/post': post current timestamp and assign primary key to it;
-- @GET on '/dog': get the dog by its kind (or get all the dogs if kind is not specified);
+- @GET on '/dog': get the dogs by their kind (or get all the dogs if kind is not specified);
 - @POST on '/dog': post new dog entry to the "database";
 - @GET on '/dog/{pk}': get the dog by its primary key;
 - @PATCH on '/dog/{pk}': patch the dog entry by the primary key.
